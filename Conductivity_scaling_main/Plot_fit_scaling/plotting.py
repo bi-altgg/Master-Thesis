@@ -36,9 +36,9 @@ for i in range(2):
     plt.grid(True)
     plt.legend()
 ax1 = plt.subplot(142)
-sgstrn = [0.00,-1.47]
-fitsite = [3.0,3.0]
-for i in range(2):
+sgstrn = [0.00]
+fitsite = [3.0,0.0]
+for i in range(1):
     plot = np.loadtxt('(0.5)conductivity v_s strength_at_energy'+'%1.2f'%sgstrn[i]+'.txt', dtype = 'float')
     keep_point = np.where(plot > 1.0E-18)
     plot=plot[keep_point]
@@ -55,6 +55,8 @@ for i in range(2):
     plt.title('($\lambda = 0.5$)')
     plt.xlabel('$\gamma$')
     plt.ylabel('$G/G_o$')
+    plt.yscale('log')
+    plt.xscale('log')
     plt.grid(True)
     plt.legend()
 sgstrn = [0.00,-1.87]
