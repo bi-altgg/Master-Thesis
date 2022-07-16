@@ -40,6 +40,7 @@ sgstrn = [0.00]
 fitsite = [3.0,0.0]
 for i in range(1):
     plot = np.loadtxt('(0.5)conductivity v_s strength_at_energy'+'%1.2f'%sgstrn[i]+'.txt', dtype = 'float')
+    print(plot)
     keep_point = np.where(plot > 1.0E-18)
     plot=plot[keep_point]
     gamma_str = np.loadtxt('x-axis.txt',dtype = 'float')
