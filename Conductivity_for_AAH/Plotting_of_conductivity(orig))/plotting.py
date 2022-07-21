@@ -9,10 +9,11 @@ from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
 plt.rcParams["font.family"] = "serif"
 plt.rcParams["font.serif"] = ["Times New Roman"]
+plt.rcParams['figure.figsize'] = [18, 6]
 
-SMALL_SIZE = 25
-MEDIUM_SIZE = 25
-BIGGER_SIZE = 25
+SMALL_SIZE = 18
+MEDIUM_SIZE = 18
+BIGGER_SIZE = 18
 
 plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
 plt.rc('axes', titlesize=SMALL_SIZE)     # fontsize of the axes title
@@ -23,7 +24,7 @@ plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)
 s= 15
 sgstrn = [0.0,0.1,2.0,5.0]
-colormark =[['green',"."],['blue',"."],['red',"."],['tab:grey',"."],['tab:cyan',"."],['tab:pink',"."],['tab:olive',"."]]
+colormark =[['green',"."],['blue',"."],['red',"."],['tab:cyan',"."],['tab:cyan',"."],['tab:olive',"."]]
 ax1 = plt.subplot(131)
 for i in range(4):
     plot = np.loadtxt('(0.5)datafile_for'+ str(sgstrn[i]) + '.txt', dtype = 'float')
@@ -65,5 +66,5 @@ for i in range(4):
     plt.yscale('log')
     plt.grid(True)
     plt.xlim((-3.5,+3.5))
-plt.savefig('conductivity.pdf')
+plt.savefig('Figure_of Conductivity.pdf')
 plt.show()
