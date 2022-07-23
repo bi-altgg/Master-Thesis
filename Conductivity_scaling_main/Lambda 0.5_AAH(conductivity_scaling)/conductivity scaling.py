@@ -11,7 +11,7 @@ n=200;#laatice sites
 no=100;#bath lattice point
 b = (1+np.sqrt(5))/2
 sitegammaindx = [0, n-1,no-1]
-gammastrn = np.logspace(-2,2,10000)
+gammastrn = np.logspace(-2,2,100)
 arrayofsitegamstrn = []
 for i in gammastrn:
     sitegammastrn = [1.0,1.0,i]
@@ -53,6 +53,7 @@ def trnasmission(sgindx1,sgstrn1,sgindx2,sgstrn2,energy, arraysitegamstrn):
     mat = (spcdn1*spcdn2)/(abs(retgre)**2)
     return mat
 mat = []
+free_energy = np.loadtxt('(0.5)free_energ.txt',dtype = 'float')
 for sgstrn in arrayofsitegamstrn:
     fe = 0.0
     print(sgstrn,fe)
@@ -82,7 +83,7 @@ plot = [m if m>1.0E-18 else 1.0E-18 for m in mat]
 np.savetxt('(0.5)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
 mat=[]
 for sgstrn in arrayofsitegamstrn:
-    fe = 0.33484507640904465
+    fe = free_energy[834]
     print(sgstrn,fe)
     rl = trnasmission(sitegammaindx[1],sgstrn[1],sitegammaindx[0],sgstrn[0],fe, sgstrn).real
     nr = trnasmission(sitegammaindx[2],sgstrn[2],sitegammaindx[1],sgstrn[1],fe, sgstrn).real
@@ -93,7 +94,7 @@ for sgstrn in arrayofsitegamstrn:
     else:
         mat += [(rl+((rn*nl)/(nr+nl)))]
 plot = [m if m>1.0E-18 else 1.0E-18 for m in mat]
-np.savetxt('(0.5)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
+np.savetxt('(0.5)conductivity v_s strength_at_energy'+'%1.2f'%fe+'oi.txt',plot)
 mat=[]
 for sgstrn in arrayofsitegamstrn:
     fe = 2.065982933203961

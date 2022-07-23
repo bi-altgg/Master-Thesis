@@ -7,6 +7,21 @@ import math,cmath
 from scipy.sparse import diags
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
+plt.rcParams["font.family"] = "serif"
+plt.rcParams["font.serif"] = ["Times New Roman"]
+plt.rcParams['figure.figsize'] = [18, 8]
+
+SMALL_SIZE = 18
+MEDIUM_SIZE = 18
+BIGGER_SIZE = 18
+
+plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
+plt.rc('axes', titlesize=SMALL_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
+plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
+plt.rc('figure', titlesize=BIGGER_SIZE)
 s= 15
 colormark =[['green',"o"],['blue',"."],['red',"^"],['tab:grey',"v"]]
 ax0 = plt.subplot(141)
@@ -18,7 +33,7 @@ for i in range(4):
     gamma_str = np.loadtxt('x-axis.txt',dtype = 'float')
     gamma_str=gamma_str[keep_point]
     plt.scatter(gamma_str, plot,s,c = colormark[i][0],marker = colormark[i][1],alpha = .8,label =  f'$\epsilon_F = {sgstrn[i]}$')
-    plt.title('($\lambda = 0.0$)')
+    plt.title('Tight-Binding')
     plt.xlabel('$\gamma$')
     plt.ylabel('$G/G_o$')
     plt.yscale('log')
@@ -26,7 +41,7 @@ for i in range(4):
     plt.grid(True)
     plt.legend()
 ax1 = plt.subplot(142)
-sgstrn = [0.00,1.40,-1.47,-2.14]
+sgstrn = [0.00,1.40,-1.47,0.17]
 for i in range(4):
     plot = np.loadtxt('(0.5)conductivity v_s strength_at_energy'+'%1.2f'%sgstrn[i]+'.txt', dtype = 'float')
     keep_point = np.where(plot > 1.0E-18)
@@ -36,7 +51,6 @@ for i in range(4):
     plt.scatter(gamma_str, plot,s,c = colormark[i][0],marker = colormark[i][1],alpha = .8,label =  f'$\epsilon_F = {sgstrn[i]}$')
     plt.title('($\lambda = 0.5$)')
     plt.xlabel('$\gamma$')
-    plt.ylabel('$G/G_o$')
     plt.yscale('log')
     plt.xscale('log')
     plt.grid(True)
@@ -52,7 +66,6 @@ for i in range(4):
     plt.scatter(gamma_str, plot,s,c = colormark[i][0],marker = colormark[i][1],alpha = .8,label =  f'$\epsilon_F = {sgstrn[i]}$')
     plt.title('($\lambda = 1.0$)')
     plt.xlabel('$\gamma$')
-    plt.ylabel('$G/G_o$')
     plt.yscale('log')
     plt.xscale('log')
     plt.grid(True)
@@ -69,9 +82,9 @@ for i in range(4):
     plt.scatter(gamma_str, plot,s,c = colormark[i][0],marker = colormark[i][1],alpha = .8,label =  f'$\epsilon_F = {sgstrn[i]}$')
     plt.title('($\lambda = 1.2$)')
     plt.xlabel('$\gamma$')
-    plt.ylabel('$G/G_o$')
     plt.yscale('log')
     plt.xscale('log')
     plt.grid(True)
     plt.legend()
+plt.savefig('conductivity_scaling.pdf')
 plt.show()

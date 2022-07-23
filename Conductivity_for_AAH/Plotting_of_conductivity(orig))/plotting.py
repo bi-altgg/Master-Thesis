@@ -42,10 +42,10 @@ for i in range(4):
     plt.xlim((-3.5,+3.5))
 ax2 = plt.subplot(132)
 for i in range(4):
-    plot = np.loadtxt("/home/bishal/Master's thesis/Codes/Conductivity_for_AAH/Plotting_of_conductivity/(1.0)datafile_for"+ str(sgstrn[i]) + ".txt", dtype = "float")
+    plot = np.loadtxt("/home/bishal/Master's thesis/Codes/Conductivity_for_AAH/Plotting_of_conductivity(orig))/(1.0)datafile_for"+ str(sgstrn[i]) + ".txt", dtype = "float")
     keep_point = np.where(plot > 1.0E-18)
     plot=plot[keep_point]
-    free_energy = np.loadtxt("/home/bishal/Master's thesis/Codes/Conductivity_for_AAH/Plotting_of_conductivity/(1.0)free_energ.txt",dtype = 'float')
+    free_energy = np.loadtxt("/home/bishal/Master's thesis/Codes/Conductivity_for_AAH/Plotting_of_conductivity(orig))/(1.0)free_energ.txt",dtype = 'float')
     free_energy=free_energy[keep_point]
     plt.scatter(free_energy, plot,s,c = colormark[i][0],marker = colormark[i][1],alpha = .8,label =  f'$\gamma = {sgstrn[i]}$')
     plt.title('($\lambda = 1.0$)')
@@ -55,10 +55,10 @@ for i in range(4):
     plt.xlim((-3.5,+3.5))
 ax3 = plt.subplot(133)
 for i in range(4):
-    plot = np.loadtxt("/home/bishal/Master's thesis/Codes/Conductivity_for_AAH/Plotting_of_conductivity/(1.2)datafile_for"+ str(sgstrn[i]) + ".txt", dtype = "float")
+    plot = np.loadtxt("/home/bishal/Master's thesis/Codes/Conductivity_for_AAH/Plotting_of_conductivity(orig))/(1.2)datafile_for"+ str(sgstrn[i]) + ".txt", dtype = "float")
     keep_point = np.where(plot > 1.0E-18)
     plot=plot[keep_point]
-    free_energy = np.loadtxt("/home/bishal/Master's thesis/Codes/Conductivity_for_AAH/Plotting_of_conductivity/(1.2)free_energ.txt",dtype = 'float')
+    free_energy = np.loadtxt("/home/bishal/Master's thesis/Codes/Conductivity_for_AAH/Plotting_of_conductivity(orig))/(1.2)free_energ.txt",dtype = 'float')
     free_energy=free_energy[keep_point]
     plt.scatter(free_energy, plot,s,c = colormark[i][0],marker = colormark[i][1],alpha = .8,label =  f'$\gamma = {sgstrn[i]}$')
     plt.title('($\lambda = 1.2$)')
