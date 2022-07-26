@@ -9,22 +9,37 @@ from mpmath import *
 from scipy import integrate
 from scipy import optimize
 from scipy.misc import derivative
+plt.rcParams["font.family"] = "serif"
+plt.rcParams["font.serif"] = ["Times New Roman"]
+plt.rcParams['figure.figsize'] = [12, 6]
 
-Nmst = 3; #Number of lattice points
-Pbst = 2;#Probe attachment site
-lbd = 0.0 ;#Lambda strength ofAAH
+SMALL_SIZE = 18
+MEDIUM_SIZE = 18
+BIGGER_SIZE = 18
+
+plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
+plt.rc('axes', titlesize=SMALL_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
+plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
+plt.rc('figure', titlesize=BIGGER_SIZE)
+
+Nmst = 200; #Number of lattice points
+Pbst = 100;#Probe attachment site
+lbd = 0.5 ;#Lambda strength ofAAH
 irrb = (1 + np.sqrt(5))/2
 t = 1.0; # hopping potential for sites
 to = 3.0; # hopping potential for bath
 sitegammaindx = [0, Nmst-1, Pbst-1]
-sitegammastrn = [1.0, 0.1, 10.0]
+sitegammastrn = [1.0, 1.0, 0.1]
 siteindx = np.array(range(1, Nmst+1))
 sitepotential = 2*lbd*np.cos(2*np.pi*irrb*(siteindx))
 diagonals = [sitepotential,t*np.ones(Nmst-1), t*np.ones(Nmst-1)]
 offset = [0,-1,1]
 sys_Ham = diags(diagonals,offset,dtype='complex_').toarray()
 mu_L = 0.0
-mu_R = np.linspace(-200,200,20)
+mu_R = [1.0,10.0,50.0,100.0,500.0]
 beta_left = 1/100
 beta_right = 1/100
 beta_probe = 1/100
@@ -76,13 +91,20 @@ def min_probe_potential(mu_l,mu_r):#Newton-Raphson minimization
         Mu = Mu - (current_int(Mu,mu_l,mu_r)/(deriv_current(Mu,mu_l,mu_r)))
         current =  current_int(Mu,mu_l,mu_r)
     return Mu
-print(min_probe_potential(2.0,202.0))
-print(current_int(min_probe_potential(2.0,202.0), ))
-print(min_probe_potential(2.0,-198.0))
-mat = []
-axis = []
-for i in range(len(mu_R)):
-    mat.append(abs(min_probe_potential(0.2,mu_R[i])))
-    axis.append(abs((mu_R[i]-0.2)))
-plt.plot(axis,mat)
+for i in mu_R:
+    Mu = (i+mu_L)/2
+    current =  current_int(Mu,mu_L,i)
+    currentaxis = []
+    Muaxis = []
+    Muaxis.append(Mu)
+    currentaxis.append(current)
+    while abs(current) >= 1.0e-10:
+        Mu = Mu - (current_int(Mu,mu_L,i)/(deriv_current(Mu,mu_L,i)))
+        current =  current_int(Mu,mu_L,i)
+        currentaxis.append(current)
+        Muaxis.append(Mu)
+    plt.plot(Muaxis,currentaxis,'--o',label =  'initial' + '$\mu_R$ = ' + str('%1.2f'%(i) ))
+plt.legend()
+plt.savefig("current_v_spotential(root).pdf")
 plt.show()
+    

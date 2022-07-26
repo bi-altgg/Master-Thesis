@@ -24,7 +24,7 @@ diagonals = [sitepotential,t*np.ones(Nmst-1), t*np.ones(Nmst-1)]
 offset = [0,-1,1]
 sys_Ham = diags(diagonals,offset,dtype='complex_').toarray()
 mu_L = 0.0
-mu_R = np.linspace(0.01,2000,200)
+mu_R = np.linspace(-600,600,200)
 beta_left = 1/100
 beta_right = 1/100
 beta_probe = 1/100

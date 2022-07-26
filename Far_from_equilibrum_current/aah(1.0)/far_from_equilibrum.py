@@ -24,7 +24,7 @@ diagonals = [sitepotential,t*np.ones(Nmst-1), t*np.ones(Nmst-1)]
 offset = [0,-1,1]
 sys_Ham = diags(diagonals,offset,dtype='complex_').toarray()
 mu_L = 0.0
-mu_R = np.linspace(0.01,2000,100)
+mu_R = np.linspace(-600,600,200)
 print(mu_R)
 beta_left = 1/100
 beta_right = 1/100
@@ -51,8 +51,9 @@ def transmissionprob(sitstrn1, sitstrn2, energy):
     spcdn2 = specden(sitstrn2, energy)
     mat = (spcdn1*spcdn2)/(abs(retgre)**2)
     return mat
-
+eigvals = np.loadtxt('eigenvalue(1.0).dat', dtype = 'float')
 point = np.linspace(-5.0,5.0, 1500)
+point = point + eigvals
 transmissionprob = np.vectorize(transmissionprob)
 first_trans_probe = transmissionprob(sitegammastrn[2], sitegammastrn[0],point)
 second_trans_probe = transmissionprob(sitegammastrn[2], sitegammastrn[1],point)
@@ -64,7 +65,6 @@ def current_val(mu_p,mu_l,mu_r):#integral equation
     right_bath = bosonic_distribution(mu_r, point, beta_right)
     return first_trans_probe*(probe - left_bath) + second_trans_probe*(probe - right_bath)
 def current_int(mu_p,mu_l,mu_r):
-    point = np.linspace(-5.0,5.0,1500)
     current_val2 = np.vectorize(current_val)
     I = current_val2(mu_p,mu_l,mu_r)
     return(integrate.simps(I,point))
@@ -83,10 +83,8 @@ def current_full(mu_l, mu_r):
     probe = bosonic_distribution(mu_poi, point, beta_probe)
     right_bath = bosonic_distribution(mu_r, point, beta_right)
     return first_trans_right*(right_bath - left_bath) + second_trans_right*(right_bath - probe)
-point = np.linspace(-5.0,5.0,1500) 
 current_temp = np.vectorize(current_full)
 def current_full2(mu_l,mu_r):  
-    point = np.linspace(-5.0,5.0,1500) 
     current_temp = np.vectorize(current_full)
     I = current_temp(mu_l, mu_r)
     return(integrate.simps(I,point))
@@ -108,7 +106,6 @@ def current_val(mu_p,mu_l,mu_r):#integral equation
     right_bath = bosonic_distribution(mu_r, point, beta_right)
     return first_trans_probe*(probe - left_bath) + second_trans_probe*(probe - right_bath)
 def current_int(mu_p,mu_l,mu_r):
-    point = np.linspace(-5.0,5.0,1500)
     current_val2 = np.vectorize(current_val)
     I = current_val2(mu_p,mu_l,mu_r)
     return(integrate.simps(I,point))
@@ -127,10 +124,8 @@ def current_full(mu_l, mu_r):
     probe = bosonic_distribution(mu_poi, point, beta_probe)
     right_bath = bosonic_distribution(mu_r, point, beta_right)
     return first_trans_right*(right_bath - left_bath) + second_trans_right*(right_bath - probe)
-point = np.linspace(-5.0,5.0,1500) 
 current_temp = np.vectorize(current_full)
 def current_full2(mu_l,mu_r):  
-    point = np.linspace(-5.0,5.0,1500) 
     current_temp = np.vectorize(current_full)
     I = current_temp(mu_l, mu_r)
     return(integrate.simps(I,point))
@@ -152,7 +147,6 @@ def current_val(mu_p,mu_l,mu_r):#integral equation
     right_bath = bosonic_distribution(mu_r, point, beta_right)
     return first_trans_probe*(probe - left_bath) + second_trans_probe*(probe - right_bath)
 def current_int(mu_p,mu_l,mu_r):
-    point = np.linspace(-5.0,5.0,1500)
     current_val2 = np.vectorize(current_val)
     I = current_val2(mu_p,mu_l,mu_r)
     return(integrate.simps(I,point))
@@ -171,10 +165,8 @@ def current_full(mu_l, mu_r):
     probe = bosonic_distribution(mu_poi, point, beta_probe)
     right_bath = bosonic_distribution(mu_r, point, beta_right)
     return first_trans_right*(right_bath - left_bath) + second_trans_right*(right_bath - probe)
-point = np.linspace(-5.0,5.0,1500) 
 current_temp = np.vectorize(current_full)
 def current_full2(mu_l,mu_r):  
-    point = np.linspace(-5.0,5.0,1500) 
     current_temp = np.vectorize(current_full)
     I = current_temp(mu_l, mu_r)
     return(integrate.simps(I,point))
@@ -196,7 +188,6 @@ def current_val(mu_p,mu_l,mu_r):#integral equation
     right_bath = bosonic_distribution(mu_r, point, beta_right)
     return first_trans_probe*(probe - left_bath) + second_trans_probe*(probe - right_bath)
 def current_int(mu_p,mu_l,mu_r):
-    point = np.linspace(-5.0,5.0,1500)
     current_val2 = np.vectorize(current_val)
     I = current_val2(mu_p,mu_l,mu_r)
     return(integrate.simps(I,point))
@@ -215,10 +206,8 @@ def current_full(mu_l, mu_r):
     probe = bosonic_distribution(mu_poi, point, beta_probe)
     right_bath = bosonic_distribution(mu_r, point, beta_right)
     return first_trans_right*(right_bath - left_bath) + second_trans_right*(right_bath - probe)
-point = np.linspace(-5.0,5.0,1500) 
 current_temp = np.vectorize(current_full)
 def current_full2(mu_l,mu_r):  
-    point = np.linspace(-5.0,5.0,1500) 
     current_temp = np.vectorize(current_full)
     I = current_temp(mu_l, mu_r)
     return(integrate.simps(I,point))
@@ -240,7 +229,6 @@ def current_val(mu_p,mu_l,mu_r):#integral equation
     right_bath = bosonic_distribution(mu_r, point, beta_right)
     return first_trans_probe*(probe - left_bath) + second_trans_probe*(probe - right_bath)
 def current_int(mu_p,mu_l,mu_r):
-    point = np.linspace(-5.0,5.0,1500)
     current_val2 = np.vectorize(current_val)
     I = current_val2(mu_p,mu_l,mu_r)
     return(integrate.simps(I,point))
@@ -259,10 +247,8 @@ def current_full(mu_l, mu_r):
     probe = bosonic_distribution(mu_poi, point, beta_probe)
     right_bath = bosonic_distribution(mu_r, point, beta_right)
     return first_trans_right*(right_bath - left_bath) + second_trans_right*(right_bath - probe)
-point = np.linspace(-5.0,5.0,1500) 
 current_temp = np.vectorize(current_full)
 def current_full2(mu_l,mu_r):  
-    point = np.linspace(-5.0,5.0,1500) 
     current_temp = np.vectorize(current_full)
     I = current_temp(mu_l, mu_r)
     return(integrate.simps(I,point))
