@@ -27,7 +27,8 @@ def selfenergy(gamma,energy):
     mat = ((gamma**2)/(2*to**2))*(energy - np.sqrt(4*to**2-energy**2)*1j)
     return mat
 def specden(gamma,site,energy):#spectral density matrix(-2Im(sigma))
-    mat = -2*(selfenergy(gamma,energy).imag)
+    mat = np.zeros((n,n),dtype = 'complex_')
+    mat[site,site] =  -2*(selfenergy(gamma,energy).imag)
     return mat
 #Green's functions
 def ret_gre(energy, arraysitgamstrn):
@@ -38,7 +39,7 @@ def ret_gre(energy, arraysitgamstrn):
         mat[i, i] = (energy - sitepotentialAAH[i]) / t
     for i in range(3):
         mat[sitegammaindx[i],sitegammaindx[i]] = (energy - sitepotentialAAH[sitegammaindx[i]] - selfenergy(arraysitgamstrn[i],energy))/t
-    return (np.linalg.det(mat)/t)
+    return (np.linalg.inv(mat)/t)
 
 
 def adv_gre(energy, arraysitegamstrn):
@@ -50,8 +51,8 @@ def trnasmission(sgindx1,sgstrn1,sgindx2,sgstrn2,energy, arraysitegamstrn):
     retgre = ret_gre(energy, arraysitegamstrn)
     spcdn2 = specden(sgstrn2,sgindx2,energy)
     advgre = adv_gre(energy, arraysitegamstrn)
-    mat = (spcdn1*spcdn2)/(abs(retgre)**2)
-    return mat
+    mat = np.dot(np.dot(spcdn1,retgre),np.dot(spcdn2,advgre))
+    return np.trace(mat)
 mat = []
 free_energy = np.loadtxt('(0.5)free_energ.txt',dtype = 'float')
 for sgstrn in arrayofsitegamstrn:
@@ -94,7 +95,7 @@ for sgstrn in arrayofsitegamstrn:
     else:
         mat += [(rl+((rn*nl)/(nr+nl)))]
 plot = [m if m>1.0E-18 else 1.0E-18 for m in mat]
-np.savetxt('(0.5)conductivity v_s strength_at_energy'+'%1.2f'%fe+'oi.txt',plot)
+np.savetxt('(0.5)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
 mat=[]
 for sgstrn in arrayofsitegamstrn:
     fe = 2.065982933203961

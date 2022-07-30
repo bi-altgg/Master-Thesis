@@ -11,7 +11,7 @@ n=200;#laatice sites
 no=100;#bath lattice point
 b = (1+np.sqrt(5))/2
 sitegammaindx = [0, n-1,no-1]
-gammastrn = np.logspace(-2,2,10000)
+gammastrn = np.logspace(-2,2,100)
 arrayofsitegamstrn = []
 for i in gammastrn:
     sitegammastrn = [1.0,1.0,i]
@@ -27,7 +27,8 @@ def selfenergy(gamma,energy):
     mat = ((gamma**2)/(2*to**2))*(energy - np.sqrt(4*to**2-energy**2)*1j)
     return mat
 def specden(gamma,site,energy):#spectral density matrix(-2Im(sigma))
-    mat = -2*(selfenergy(gamma,energy).imag)
+    mat = np.zeros((n,n),dtype = 'complex_')
+    mat[site,site] =  -2*(selfenergy(gamma,energy).imag)
     return mat
 #Green's functions
 def ret_gre(energy, arraysitgamstrn):
@@ -50,8 +51,9 @@ def trnasmission(sgindx1,sgstrn1,sgindx2,sgstrn2,energy, arraysitegamstrn):
     retgre = ret_gre(energy, arraysitegamstrn)
     spcdn2 = specden(sgstrn2,sgindx2,energy)
     advgre = adv_gre(energy, arraysitegamstrn)
-    mat = (spcdn1*spcdn2)/(abs(retgre)**2)
-    return mat
+    advgre = adv_gre(energy, arraysitegamstrn)
+    mat = np.dot(np.dot(spcdn1,retgre),np.dot(spcdn2,advgre))
+    return np.trace(mat)
 mat = []
 for sgstrn in arrayofsitegamstrn:
     fe = 0.0
@@ -65,7 +67,7 @@ for sgstrn in arrayofsitegamstrn:
     else:
         mat += [(rl+((rn*nl)/(nr+nl)))]
 plot = [m if m>1.0E-18 else 1.0E-18 for m in mat]
-np.savetxt('(1.2)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
+np.savetxt('(1.0)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
 mat=[]
 for sgstrn in arrayofsitegamstrn:
     fe = 0.043654
@@ -79,7 +81,7 @@ for sgstrn in arrayofsitegamstrn:
     else:
         mat += [(rl+((rn*nl)/(nr+nl)))]
 plot = [m if m>1.0E-18 else 1.0E-18 for m in mat]
-np.savetxt('(1.2)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
+np.savetxt('(1.0)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
 mat=[]
 for sgstrn in arrayofsitegamstrn:
     fe = -2.1088
@@ -93,7 +95,7 @@ for sgstrn in arrayofsitegamstrn:
     else:
         mat += [(rl+((rn*nl)/(nr+nl)))]
 plot = [m if m>1.0E-18 else 1.0E-18 for m in mat]
-np.savetxt('(1.2)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
+np.savetxt('(1.0)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
 mat=[]
 for sgstrn in arrayofsitegamstrn:
     fe = -1.8743525
@@ -107,7 +109,7 @@ for sgstrn in arrayofsitegamstrn:
     else:
         mat += [(rl+((rn*nl)/(nr+nl)))]
 plot = [m if m>1.0E-18 else 1.0E-18 for m in mat]
-np.savetxt('(1.2)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
+np.savetxt('(1.0)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
 np.savetxt('x-axis.txt',gammastrn)
 plt.grid()
 plt.yscale('log')

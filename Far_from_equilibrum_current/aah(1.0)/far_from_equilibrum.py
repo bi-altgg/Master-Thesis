@@ -23,8 +23,8 @@ sitepotential = 2*lbd*np.cos(2*np.pi*irrb*(siteindx))
 diagonals = [sitepotential,t*np.ones(Nmst-1), t*np.ones(Nmst-1)]
 offset = [0,-1,1]
 sys_Ham = diags(diagonals,offset,dtype='complex_').toarray()
-mu_L = 0.0
-mu_R = np.linspace(-600,600,200)
+mu_L = 0.2
+mu_R = np.linspace(0.3,600,200)
 print(mu_R)
 beta_left = 1/100
 beta_right = 1/100
@@ -51,9 +51,10 @@ def transmissionprob(sitstrn1, sitstrn2, energy):
     spcdn2 = specden(sitstrn2, energy)
     mat = (spcdn1*spcdn2)/(abs(retgre)**2)
     return mat
-eigvals = np.loadtxt('eigenvalue(1.0).dat', dtype = 'float')
-point = np.linspace(-5.0,5.0, 1500)
-point = point + eigvals
+bosonic_distribution = np.
+red = np.loadtxt('eigenvalue(1.0).dat',dtype= 'float')
+point = np.linspace(-5.0,5.0, 2000)
+point = [*point,*red]
 transmissionprob = np.vectorize(transmissionprob)
 first_trans_probe = transmissionprob(sitegammastrn[2], sitegammastrn[0],point)
 second_trans_probe = transmissionprob(sitegammastrn[2], sitegammastrn[1],point)

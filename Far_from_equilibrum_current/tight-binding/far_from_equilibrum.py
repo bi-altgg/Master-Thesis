@@ -24,9 +24,6 @@ offset = [0,-1,1]
 sys_Ham = diags(diagonals,offset,dtype='complex_').toarray()
 mu_L = 0.2
 mu_R = np.linspace(-600,600,200)
-beta_left = 1/100
-beta_right = 1/100
-beta_probe = 1/100
 def bosonic_distribution(mu, energy, beta):#bosonic distribution function
     return (np.exp(beta*(energy - mu))+1)**(-1)
 def selfenergy(gamma,site,energy):#self energy matrix
@@ -50,7 +47,7 @@ def transmissionprob(sitstrn1, sitstrn2, energy):
     mat = (spcdn1*spcdn2)/(abs(retgre)**2)
     return mat
 
-point = np.linspace(-5.0,5.0, 1500)
+point = np.linspace(mu_l,mu_r, 1500)
 transmissionprob = np.vectorize(transmissionprob)
 first_trans_probe = transmissionprob(sitegammastrn[2], sitegammastrn[0],point)
 print('done')
@@ -61,12 +58,15 @@ print('done')
 second_trans_right = transmissionprob(sitegammastrn[1], sitegammastrn[2],point)
 print('done')
 def current_val(mu_p,mu_l,mu_r):#integral equation
-    left_bath = bosonic_distribution(mu_l, point, beta_left)
-    probe = bosonic_distribution(mu_p, point, beta_probe)
-    right_bath = bosonic_distribution(mu_r, point, beta_right)
-    return first_trans_probe*(probe - left_bath) + second_trans_probe*(probe - right_bath)
+    point = np.linspace(mu_l,mu_r, 1500)
+    transmissionprob = np.vectorize(transmissionprob)
+    first_trans_probe = transmissionprob(sitegammastrn[2], sitegammastrn[0],point)
+    print('done')
+    second_trans_probe = transmissionprob(sitegammastrn[2], sitegammastrn[1],point)
+    print('done')
+    return first_trans_probe + second_trans_probe
 def current_int(mu_p,mu_l,mu_r):
-    point = np.linspace(-5.0,5.0,1500)
+    point = np.linspace(mu_l,mu_r,1500)
     current_val2 = np.vectorize(current_val)
     I = current_val2(mu_p,mu_l,mu_r)
     return(integrate.simps(I,point))
@@ -81,10 +81,7 @@ def min_probe_potential(mu_l,mu_r):#Newton-Raphson minimization
     return Mu
 def current_full(mu_l, mu_r):
     mu_poi = min_probe_potential(mu_l,mu_r)
-    left_bath = bosonic_distribution(mu_l, point, beta_left)
-    probe = bosonic_distribution(mu_poi, point, beta_probe)
-    right_bath = bosonic_distribution(mu_r, point, beta_right)
-    return first_trans_right*(right_bath - left_bath) + second_trans_right*(right_bath - probe)
+    return first_trans_right + second_trans_right
 point = np.linspace(-5.0,5.0,1500) 
 current_temp = np.vectorize(current_full)
 def current_full2(mu_l,mu_r):  
