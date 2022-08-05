@@ -78,7 +78,8 @@ def selfenergy(gamma,energy):
     mat = ((gamma**2)/(2*to**2))*(energy - np.sqrt(4*to**2-energy**2)*1j)
     return mat
 def specden(gamma,site,energy):#spectral density matrix(-2Im(sigma))
-    mat = -2*(selfenergy(gamma,energy).imag)
+    mat = np.zeros((n,n),dtype = 'complex_')
+    mat[site,site] =  -2*(selfenergy(gamma,energy).imag)
     return mat
 #Green's functions
 def ret_gre(energy, arraysitgamstrn):
@@ -89,7 +90,7 @@ def ret_gre(energy, arraysitgamstrn):
         mat[i, i] = (energy - sitepotentialAAH[i]) / t
     for i in range(3):
         mat[sitegammaindx[i],sitegammaindx[i]] = (energy - sitepotentialAAH[sitegammaindx[i]] - selfenergy(arraysitgamstrn[i],energy))/t
-    return (np.linalg.det(mat)/t)
+    return (np.linalg.inv(mat)/t)
 
 
 def adv_gre(energy, arraysitegamstrn):
@@ -101,8 +102,8 @@ def trnasmission(sgindx1,sgstrn1,sgindx2,sgstrn2,energy, arraysitegamstrn):
     retgre = ret_gre(energy, arraysitegamstrn)
     spcdn2 = specden(sgstrn2,sgindx2,energy)
     advgre = adv_gre(energy, arraysitegamstrn)
-    mat = (spcdn1*spcdn2)/(abs(retgre)**2)
-    return mat
+    mat = np.dot(np.dot(spcdn1,retgre),np.dot(spcdn2,advgre))
+    return np.trace(mat)
 pun = np.linspace(start=-2.0*to,stop=2.0*to,endpoint=True,num=100)
 grofer = makeeigran(energyval, 0.01, 4) + makelist(energyval)
 free_energy = [*pun,*grofer]

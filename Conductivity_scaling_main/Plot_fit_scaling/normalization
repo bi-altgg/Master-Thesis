@@ -1,0 +1,9 @@
+from sklearn import preprocessing
+import numpy as np
+
+sgstrn = [0.00,0.17,1.39,2.07]
+for i in range(4):
+    plot = np.loadtxt('(0.5)conductivity v_s strength_at_energy'+'%1.2f'%sgstrn[i]+'.txt', dtype = 'float')
+    normalized = preprocessing.normalize(plot)
+    print("Normalized Data = ", normalized)
+# normalize the data attributes

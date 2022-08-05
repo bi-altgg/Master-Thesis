@@ -6,12 +6,15 @@ import scipy
 import scipy.linalg as la
 import math,cmath
 from scipy.sparse import diags
+from tqdm import tqdm
 #Creating the spectral density matrix
 n=200;#laatice sites
 no=100;#bath lattice point
 b = (1+np.sqrt(5))/2
 sitegammaindx = [0, n-1,no-1]
-gammastrn = np.logspace(-2,2,100)
+lowval = np.logspace(-2,-1,20)
+highval = np.logspace(-1,2,1000)
+gammastrn = [*lowval,*highval]
 arrayofsitegamstrn = []
 for i in gammastrn:
     sitegammastrn = [1.0,1.0,i]
@@ -55,7 +58,7 @@ def trnasmission(sgindx1,sgstrn1,sgindx2,sgstrn2,energy, arraysitegamstrn):
     return np.trace(mat)
 mat = []
 free_energy = np.loadtxt('(0.5)free_energ.txt',dtype = 'float')
-for sgstrn in arrayofsitegamstrn:
+for sgstrn in tqdm(arrayofsitegamstrn):
     fe = 0.0
     print(sgstrn,fe)
     rl = trnasmission(sitegammaindx[1],sgstrn[1],sitegammaindx[0],sgstrn[0],fe, sgstrn).real
@@ -69,7 +72,7 @@ for sgstrn in arrayofsitegamstrn:
 plot = [m if m>1.0E-18 else 1.0E-18 for m in mat]
 np.savetxt('(0.5)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
 mat=[]
-for sgstrn in arrayofsitegamstrn:
+for sgstrn in tqdm(arrayofsitegamstrn):
     fe = 1.3874668995636554
     print(sgstrn,fe)
     rl = trnasmission(sitegammaindx[1],sgstrn[1],sitegammaindx[0],sgstrn[0],fe, sgstrn).real
@@ -83,7 +86,7 @@ for sgstrn in arrayofsitegamstrn:
 plot = [m if m>1.0E-18 else 1.0E-18 for m in mat]
 np.savetxt('(0.5)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
 mat=[]
-for sgstrn in arrayofsitegamstrn:
+for sgstrn in tqdm(arrayofsitegamstrn):
     fe = free_energy[834]
     print(sgstrn,fe)
     rl = trnasmission(sitegammaindx[1],sgstrn[1],sitegammaindx[0],sgstrn[0],fe, sgstrn).real
@@ -97,7 +100,7 @@ for sgstrn in arrayofsitegamstrn:
 plot = [m if m>1.0E-18 else 1.0E-18 for m in mat]
 np.savetxt('(0.5)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
 mat=[]
-for sgstrn in arrayofsitegamstrn:
+for sgstrn in tqdm(arrayofsitegamstrn):
     fe = 2.065982933203961
     print(sgstrn,fe)
     rl = trnasmission(sitegammaindx[1],sgstrn[1],sitegammaindx[0],sgstrn[0],fe, sgstrn).real

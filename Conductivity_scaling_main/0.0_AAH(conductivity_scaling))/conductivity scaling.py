@@ -11,7 +11,9 @@ n=200;#laatice sites
 no=100;#bath lattice point
 b = (1+np.sqrt(5))/2
 sitegammaindx = [0, n-1,no-1]
-gammastrn = np.logspace(-2,2,100)
+lowval = np.logspace(-2,0,10)
+highval = np.logspace(0,2,1000)
+gammastrn = [*lowval,*highval]
 arrayofsitegamstrn = []
 for i in gammastrn:
     sitegammastrn = [1.0,1.0,i]

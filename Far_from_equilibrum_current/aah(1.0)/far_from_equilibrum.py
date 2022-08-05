@@ -12,12 +12,12 @@ from scipy.misc import derivative
 
 Nmst = 200; #Number of lattice points
 Pbst = 100;#Probe attachment site
-lbd = 1.0 ;#Lambda strength ofAAH
+lbd = 0.0 ;#Lambda strength ofAAH
 irrb = (1 + np.sqrt(5))/2
 t = 1.0; # hopping potential for sites
 to = 3.0; # hopping potential for bath
 sitegammaindx = [0, Nmst-1, Pbst-1]
-sitegammastrn = [1.0, 1.0, 0.1]
+sitegammastrn = [1.0, 1.0, 0.001]
 siteindx = np.array(range(1, Nmst+1))
 sitepotential = 2*lbd*np.cos(2*np.pi*irrb*(siteindx))
 diagonals = [sitepotential,t*np.ones(Nmst-1), t*np.ones(Nmst-1)]
@@ -51,10 +51,7 @@ def transmissionprob(sitstrn1, sitstrn2, energy):
     spcdn2 = specden(sitstrn2, energy)
     mat = (spcdn1*spcdn2)/(abs(retgre)**2)
     return mat
-bosonic_distribution = np.
-red = np.loadtxt('eigenvalue(1.0).dat',dtype= 'float')
 point = np.linspace(-5.0,5.0, 2000)
-point = [*point,*red]
 transmissionprob = np.vectorize(transmissionprob)
 first_trans_probe = transmissionprob(sitegammastrn[2], sitegammastrn[0],point)
 second_trans_probe = transmissionprob(sitegammastrn[2], sitegammastrn[1],point)

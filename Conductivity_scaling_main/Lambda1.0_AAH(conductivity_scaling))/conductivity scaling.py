@@ -6,12 +6,13 @@ import scipy
 import scipy.linalg as la
 import math,cmath
 from scipy.sparse import diags
+from tqdm import tqdm
 #Creating the spectral density matrix
 n=200;#laatice sites
 no=100;#bath lattice point
 b = (1+np.sqrt(5))/2
 sitegammaindx = [0, n-1,no-1]
-gammastrn = np.logspace(-2,2,100)
+gammastrn = np.logspace(-2,2,1000)
 arrayofsitegamstrn = []
 for i in gammastrn:
     sitegammastrn = [1.0,1.0,i]
@@ -39,7 +40,7 @@ def ret_gre(energy, arraysitgamstrn):
         mat[i, i] = (energy - sitepotentialAAH[i]) / t
     for i in range(3):
         mat[sitegammaindx[i],sitegammaindx[i]] = (energy - sitepotentialAAH[sitegammaindx[i]] - selfenergy(arraysitgamstrn[i],energy))/t
-    return (np.linalg.det(mat)/t)
+    return (np.linalg.inv(mat)/t)
 
 
 def adv_gre(energy, arraysitegamstrn):
@@ -54,9 +55,10 @@ def trnasmission(sgindx1,sgstrn1,sgindx2,sgstrn2,energy, arraysitegamstrn):
     advgre = adv_gre(energy, arraysitegamstrn)
     mat = np.dot(np.dot(spcdn1,retgre),np.dot(spcdn2,advgre))
     return np.trace(mat)
+free_energy = np.loadtxt('free_energ.txt',dtype = 'float')
 mat = []
-for sgstrn in arrayofsitegamstrn:
-    fe = 0.0
+for sgstrn in tqdm(arrayofsitegamstrn):
+    fe = free_energy[1098]
     print(sgstrn,fe)
     rl = trnasmission(sitegammaindx[1],sgstrn[1],sitegammaindx[0],sgstrn[0],fe, sgstrn).real
     nr = trnasmission(sitegammaindx[2],sgstrn[2],sitegammaindx[1],sgstrn[1],fe, sgstrn).real
@@ -69,8 +71,8 @@ for sgstrn in arrayofsitegamstrn:
 plot = [m if m>1.0E-18 else 1.0E-18 for m in mat]
 np.savetxt('(1.0)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
 mat=[]
-for sgstrn in arrayofsitegamstrn:
-    fe = 0.043654
+for sgstrn in tqdm(arrayofsitegamstrn):
+    fe = free_energy[1029]
     print(sgstrn,fe)
     rl = trnasmission(sitegammaindx[1],sgstrn[1],sitegammaindx[0],sgstrn[0],fe, sgstrn).real
     nr = trnasmission(sitegammaindx[2],sgstrn[2],sitegammaindx[1],sgstrn[1],fe, sgstrn).real
@@ -83,8 +85,8 @@ for sgstrn in arrayofsitegamstrn:
 plot = [m if m>1.0E-18 else 1.0E-18 for m in mat]
 np.savetxt('(1.0)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
 mat=[]
-for sgstrn in arrayofsitegamstrn:
-    fe = -2.1088
+for sgstrn in tqdm(arrayofsitegamstrn):
+    fe = free_energy[1093]
     print(sgstrn,fe)
     rl = trnasmission(sitegammaindx[1],sgstrn[1],sitegammaindx[0],sgstrn[0],fe, sgstrn).real
     nr = trnasmission(sitegammaindx[2],sgstrn[2],sitegammaindx[1],sgstrn[1],fe, sgstrn).real
@@ -97,8 +99,8 @@ for sgstrn in arrayofsitegamstrn:
 plot = [m if m>1.0E-18 else 1.0E-18 for m in mat]
 np.savetxt('(1.0)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
 mat=[]
-for sgstrn in arrayofsitegamstrn:
-    fe = -1.8743525
+for sgstrn in tqdm(arrayofsitegamstrn):
+    fe = free_energy[1048]
     print(sgstrn,fe)
     rl = trnasmission(sitegammaindx[1],sgstrn[1],sitegammaindx[0],sgstrn[0],fe, sgstrn).real
     nr = trnasmission(sitegammaindx[2],sgstrn[2],sitegammaindx[1],sgstrn[1],fe, sgstrn).real

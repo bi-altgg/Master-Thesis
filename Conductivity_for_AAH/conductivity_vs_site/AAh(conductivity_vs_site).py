@@ -12,15 +12,15 @@ from scipy.misc import derivative
 
 Nmst = 200; #Number of lattice points
 Pbst = np.linspace(1,Nmst-2,Nmst-2).astype('int');#bath lattice point
-lbd = 0.0 ;#Lambda strength ofAAH
+lbd = 1.0 ;#Lambda strength ofAAH
 irrb = (1 + np.sqrt(5))/2
 t = 1.0; # hopping potential for sites
 to = 3.0; # hopping potential for bath
 sitegammaindx = [0, Nmst-1]
-sitegammastrn0 = [1.0,0.8,0.0]
-sitegammastrn0_1 = [1.0,0.8,0.1]
-sitegamaastrn0_5 = [1.0,0.8,0.5]
-sitegamaastrn2_0 = [1.0,0.8,2.0]
+sitegammastrn0 = [1.2,0.8,0.0]
+sitegammastrn0_1 = [1.2,0.8,0.1]
+sitegamaastrn0_5 = [1.2,0.8,0.5]
+sitegamaastrn2_0 = [1.2,0.8,2.0]
 arrayofsitegamstrn = [sitegammastrn0, sitegammastrn0_1, sitegamaastrn0_5 ,sitegamaastrn2_0]
 siteindx = np.array(range(1, Nmst+1))
 sitepotential = 2*lbd*np.cos(2*np.pi*irrb*(siteindx))
@@ -48,7 +48,7 @@ def transmissionprob(sitstrn1, sitstrn2, energy,site, arraysitegamstrn):
     mat = (spcdn1*spcdn2)/(abs(retgre)**2)
     return mat
 
-free_energy = np.loadtxt('eigenvalue(0.5).dat',dtype = 'float')[197]
+free_energy = np.loadtxt('eigenvalue(1.0).dat',dtype = 'float')[199]
 for sgstrn in arrayofsitegamstrn:
     print(sgstrn)
     mat = []
@@ -62,7 +62,7 @@ for sgstrn in arrayofsitegamstrn:
             mat.append(rl)
         else:
             mat.append(rl+(rn*nl)/(nr+nl))
-    np.savetxt('(0.0)datafile_for'+ str(sgstrn[2]) + '.txt', mat )
+    np.savetxt('(1.0)datafile_for'+ str(sgstrn[2]) + '.txt', mat )
     plt.plot(Pbst,mat,linestyle = 'dashdot')
 np.savetxt('freeenerg.txt', Pbst )
 plt.yscale('log')

@@ -55,13 +55,13 @@ for i in range(4):
     plt.xscale('log')
     plt.grid(True)
     plt.legend()
-sgstrn = [0.00,0.04,-1.87]
+sgstrn = [0.01,1.92,1.87,-0.00]
 ax2 = plt.subplot(143)
-for i in range(3):
+for i in range(4):
     plot = np.loadtxt('(1.0)conductivity v_s strength_at_energy'+'%1.2f'%sgstrn[i]+'.txt', dtype = 'float')
     keep_point = np.where(plot > 1.0E-18)
     plot=plot[keep_point]
-    gamma_str = np.loadtxt('x-axis.txt',dtype = 'float')
+    gamma_str = np.loadtxt('1.0AAHxaxis.txt',dtype = 'float')
     gamma_str=gamma_str[keep_point]
     plt.scatter(gamma_str, plot,s,c = colormark[i][0],marker = colormark[i][1],alpha = .8,label =  f'$\epsilon_F = {sgstrn[i]}$')
     plt.title('($\lambda = 1.0$)')

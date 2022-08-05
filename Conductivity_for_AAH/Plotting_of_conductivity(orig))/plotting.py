@@ -27,10 +27,10 @@ sgstrn = [0.0,0.1,2.0,5.0]
 colormark =[['green',"."],['blue',"."],['red',"."],['tab:cyan',"."],['tab:cyan',"."],['tab:olive',"."]]
 ax1 = plt.subplot(131)
 for i in range(4):
-    plot = np.loadtxt('(0.5)datafile_for'+ str(sgstrn[i]) + '.txt', dtype = 'float')
+    plot = np.loadtxt('(0.5)datafile_for'+ str(sgstrn[i]) + ' (copy 1).txt', dtype = 'float')
     keep_point = np.where(plot > 1.0E-18)
     plot=plot[keep_point]
-    free_energy = np.loadtxt('(0.5)free_energ.txt',dtype = 'float')
+    free_energy = np.loadtxt('free_energ.txt',dtype = 'float')
     free_energy=free_energy[keep_point]
     plt.scatter(free_energy, plot,s,c = colormark[i][0],marker = colormark[i][1],alpha = .8,label =  f'$\gamma = {sgstrn[i]}$')
     plt.title('($\lambda = 0.5$)')
@@ -38,8 +38,10 @@ for i in range(4):
     plt.ylabel('$G/G_o$')
     plt.yscale('log')
     plt.grid(True)
+    plt.text(-3.5, 0.7,'(a)')
     plt.legend()
     plt.xlim((-3.5,+3.5))
+sgstrn = [0.0,0.1,2.0,5.0]
 ax2 = plt.subplot(132)
 for i in range(4):
     plot = np.loadtxt("/home/bishal/Master's thesis/Codes/Conductivity_for_AAH/Plotting_of_conductivity(orig))/(1.0)datafile_for"+ str(sgstrn[i]) + ".txt", dtype = "float")
@@ -52,7 +54,9 @@ for i in range(4):
     plt.xlabel('$\epsilon_{F}$')
     plt.yscale('log')
     plt.grid(True)
+    plt.text(-3.5, 0.7,'(b)')
     plt.xlim((-3.5,+3.5))
+sgstrn = [0.0,0.1,2.0,5.0]
 ax3 = plt.subplot(133)
 for i in range(4):
     plot = np.loadtxt("/home/bishal/Master's thesis/Codes/Conductivity_for_AAH/Plotting_of_conductivity(orig))/(1.2)datafile_for"+ str(sgstrn[i]) + ".txt", dtype = "float")
@@ -65,6 +69,7 @@ for i in range(4):
     plt.xlabel('$\epsilon_{F}$')
     plt.yscale('log')
     plt.grid(True)
+    plt.text(-3.5, 0.25,'(c)')    
     plt.xlim((-3.5,+3.5))
-plt.savefig('Figure_of Conductivity.pdf')
+plt.savefig('Figure_of Conductivity_201.pdf')
 plt.show()
