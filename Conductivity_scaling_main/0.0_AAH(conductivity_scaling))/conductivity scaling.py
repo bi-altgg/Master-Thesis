@@ -7,8 +7,8 @@ import scipy.linalg as la
 import math,cmath
 from scipy.sparse import diags
 #Creating the spectral density matrix
-n=200;#laatice sites
-no=100;#bath lattice point
+n=3;#laatice sites
+no=2;#bath lattice point
 b = (1+np.sqrt(5))/2
 sitegammaindx = [0, n-1,no-1]
 lowval = np.logspace(-2,0,10)
@@ -57,7 +57,7 @@ def trnasmission(sgindx1,sgstrn1,sgindx2,sgstrn2,energy, arraysitegamstrn):
     return np.trace(mat)
 mat = []
 for sgstrn in arrayofsitegamstrn:
-    fe = np.loadtxt('Energyval.txt',dtype = 'float')[155]
+    fe = 0.0
     print(sgstrn,fe)
     rl = trnasmission(sitegammaindx[1],sgstrn[1],sitegammaindx[0],sgstrn[0],fe, sgstrn).real
     nr = trnasmission(sitegammaindx[2],sgstrn[2],sitegammaindx[1],sgstrn[1],fe, sgstrn).real
@@ -68,10 +68,10 @@ for sgstrn in arrayofsitegamstrn:
     else:
         mat += [(rl+((rn*nl)/(nr+nl)))]
 plot = [m if m>1.0E-18 else 1.0E-18 for m in mat]
-np.savetxt('(0.0)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
+np.savetxt('(0.0)conductivity v_s strength_at_energy_small'+'%1.2f'%fe+'.txt',plot)
 mat=[]
 for sgstrn in arrayofsitegamstrn:
-    fe = np.loadtxt('Energyval.txt',dtype = 'float')[40]
+    fe = -np.sqrt(2)+0.8
     print(sgstrn,fe)
     rl = trnasmission(sitegammaindx[1],sgstrn[1],sitegammaindx[0],sgstrn[0],fe, sgstrn).real
     nr = trnasmission(sitegammaindx[2],sgstrn[2],sitegammaindx[1],sgstrn[1],fe, sgstrn).real
@@ -82,10 +82,10 @@ for sgstrn in arrayofsitegamstrn:
     else:
         mat += [(rl+((rn*nl)/(nr+nl)))]
 plot = [m if m>1.0E-18 else 1.0E-18 for m in mat]
-np.savetxt('(0.0)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
+np.savetxt('(0.0)conductivity v_s strength_at_energy_small'+'%1.2f'%fe+'.txt',plot)
 mat=[]
 for sgstrn in arrayofsitegamstrn:
-    fe = np.loadtxt('Energyval.txt',dtype = 'float')[105]
+    fe = np.sqrt(2)-0.8
     print(sgstrn,fe)
     rl = trnasmission(sitegammaindx[1],sgstrn[1],sitegammaindx[0],sgstrn[0],fe, sgstrn).real
     nr = trnasmission(sitegammaindx[2],sgstrn[2],sitegammaindx[1],sgstrn[1],fe, sgstrn).real
@@ -96,25 +96,4 @@ for sgstrn in arrayofsitegamstrn:
     else:
         mat += [(rl+((rn*nl)/(nr+nl)))]
 plot = [m if m>1.0E-18 else 1.0E-18 for m in mat]
-np.savetxt('(0.0)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
-mat=[]
-for sgstrn in arrayofsitegamstrn:
-    fe = np.loadtxt('Energyval.txt',dtype = 'float')[83]
-    print(sgstrn,fe)
-    rl = trnasmission(sitegammaindx[1],sgstrn[1],sitegammaindx[0],sgstrn[0],fe, sgstrn).real
-    nr = trnasmission(sitegammaindx[2],sgstrn[2],sitegammaindx[1],sgstrn[1],fe, sgstrn).real
-    nl = trnasmission(sitegammaindx[2],sgstrn[2],sitegammaindx[0],sgstrn[0],fe, sgstrn).real
-    rn = trnasmission(sitegammaindx[1],sgstrn[1],sitegammaindx[2],sgstrn[2],fe, sgstrn).real
-    if nr + nl == 0:
-        mat += [rl]
-    else:
-        mat += [(rl+((rn*nl)/(nr+nl)))]
-plot = [m if m>1.0E-18 else 1.0E-18 for m in mat]
-np.savetxt('(0.0)conductivity v_s strength_at_energy'+'%1.2f'%fe+'.txt',plot)
-np.savetxt('x-axis.txt',gammastrn)
-plt.grid()
-plt.yscale('log')
-plt.xscale('log')
-
-
-
+np.savetxt('(0.0)conductivity v_s strength_at_energy_small'+'%1.2f'%fe+'.txt',plot)

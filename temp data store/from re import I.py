@@ -58,7 +58,7 @@ def trnasmission(sgindx1,sgstrn1,sgindx2,sgstrn2,energy):
     mat = np.dot(np.dot(spcdn1,retgre),np.dot(spcdn2,advgre))
     return np.trace(mat)
 trnasmission = np.vectorize(trnasmission)
-point = np.linspace(0,200,150)
+point = np.linspace(0,200,128)
 y = []
 st = time.time()
 def pointy(x):

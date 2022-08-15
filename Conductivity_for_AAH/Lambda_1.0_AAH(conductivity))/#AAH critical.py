@@ -47,6 +47,8 @@ print(sys_Ham)
 eigvals, eigvecs = la.eig(sys_Ham)
 energyval = np.loadtxt('eigenvalue(1.0).dat',dtype = 'float')
 print(energyval)
+
+
 def Rand(start, end, num):
     res = []
  
@@ -74,6 +76,8 @@ def makelist(pointer):
     for i in range(len(pointer)):
         moin.append(pointer[i])
     return moin
+
+
 def selfenergy(gamma,energy):
     mat = ((gamma**2)/(2*to**2))*(energy - np.sqrt(4*to**2-energy**2)*1j)
     return mat
