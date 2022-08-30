@@ -15,7 +15,7 @@ plt.rcParams['figure.figsize'] = [20, 8]
 SMALL_SIZE = 24
 MEDIUM_SIZE = 24
 BIGGER_SIZE = 24
-parameter_size = 14
+parameter_size = 10
 
 plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
 plt.rc('axes', titlesize=SMALL_SIZE)     # fontsize of the axes title
@@ -87,22 +87,20 @@ for i in range(4):
     plt.xscale('log')
     plt.text(60,0.7,'(b)')
     plt.legend()
-sgstrn = [-0.00,0.01,1.87,1.92]
-sgstrn = [0.01,1.92,1.87,-0.00]
-eigval = ['.','eigval','.','eigval']
+sgstrn = [-0.06,1.97,-1.18,1.40]
 eigval = ['eigval','eigval','.','.']
-fitsite = [10.0,10.0,10.0,10.0]
+fitsite = [100.0,100.0,100.0,100.0]
 ax3 = plt.subplot(133)
 for i in range(4):
-    plot = np.loadtxt('1.0 strength'+'%1.2f'%sgstrn[i]+'.txt', dtype = 'float')
+    plot = np.loadtxt('new(1.0)conductivity v_s strength_at11'+'%1.2f'%sgstrn[i]+'.txt', dtype = 'float')
     keep_point = np.where(plot > (1.0E-18))
     plot=plot[keep_point]
-    gamma_str = np.loadtxt('xaxis.txt',dtype = 'float')
+    gamma_str = np.loadtxt('(11)1.0x-axis.txt',dtype = 'float')
     gamma_str=gamma_str[keep_point]
-    fittingx = np.loadtxt('xaxis.txt',dtype = 'float')
+    fittingx = np.loadtxt('(11)1.0x-axis.txt',dtype = 'float')
     keep_point2 = np.where(fittingx > fitsite[i])
     fittingx = fittingx[keep_point2]
-    fittingy = np.loadtxt('1.0 strength'+'%1.2f'%sgstrn[i]+'.txt', dtype = 'float')
+    fittingy = np.loadtxt('new(1.0)conductivity v_s strength_at11'+'%1.2f'%sgstrn[i]+'.txt', dtype = 'float')
     fittingy = fittingy[keep_point2]
     popt, pcov = curve_fit(func, fittingx, fittingy, maxfev=300000)
     residuals = fittingy- func(fittingx, *popt)
@@ -117,6 +115,6 @@ for i in range(4):
     plt.xscale('log')
     plt.text(60,0.7,'(c)')
     plt.legend()
-plt.savefig('conductivity_scaling_fit.pdf')
+plt.savefig('conductivity_scaling_fit11.pdf')
 plt.show()
 

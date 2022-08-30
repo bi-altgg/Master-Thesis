@@ -9,11 +9,11 @@ from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
 plt.rcParams["font.family"] = "serif"
 plt.rcParams["font.serif"] = ["Times New Roman"]
-plt.rcParams['figure.figsize'] = [16, 10]
+plt.rcParams['figure.figsize'] = [16, 16]
 
-SMALL_SIZE = 22
-MEDIUM_SIZE = 22
-BIGGER_SIZE = 22
+SMALL_SIZE = 30
+MEDIUM_SIZE = 30
+BIGGER_SIZE = 30
 
 plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
 plt.rc('axes', titlesize=SMALL_SIZE)     # fontsize of the axes title
@@ -38,7 +38,7 @@ for i in range(4):
     plt.yscale('log')
     plt.grid(True)
     plt.legend()    
-    plt.xlim((-6.0,+6.0))
-    plt.ylim((1.0e-8,2.0))
-plt.savefig('Figure_of Conductivity(small_site_partial).pdf',dpi = 300)
+    plt.xlim((-3.0,+3.0))
+    plt.ylim((1.0e-4,2.0))
+plt.savefig('Figure_of Conductivity(small_site_partial1).pdf',dpi = 300)
 plt.show()
